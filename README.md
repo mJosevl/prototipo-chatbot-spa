@@ -1,22 +1,19 @@
-# prototipo-chatbot-spa
-Prototipo de chatbot conversacional para la atencion al cliente en Austral Road SPA via Twilio WhatsApp Sandbox
+# Chatbot Austral Road SPA
 
-Chatbot Conversacional - Austral Road SPA
-Prototipo de chatbot conversacional desarrollado para optimizar la atencion al cliente en Austral Road SPA. Permite automatizar respuestas a consultas frecuentes a traves de WhatsApp utilizando Twilio Sandbox.
-Descripcion
-Este proyecto fue desarrollado como parte del examen de titulo de Tecnico de Nivel Superior en Analisis y Programacion Computacional en IACC. El chatbot maneja un menu de opciones predefinidas y registra cada interaccion en una base de datos local SQLite.
-Stack tecnologico
+Prototipo de chatbot conversacional para WhatsApp via Twilio Sandbox.
 
-Python 3
-Flask
-Twilio WhatsApp Sandbox
-SQLAlchemy + SQLite
-Render (deploy)
-python-dotenv
+## Stack
+- Python + Flask
+- Twilio WhatsApp Sandbox
+- SQLite (registro de interacciones)
+- Render (deploy)
 
-Requisitos
+## Variables de entorno requeridas (en Render)
+- `TWILIO_ACCOUNT_SID`
+- `TWILIO_AUTH_TOKEN`
 
-Python 3.10 o superior
-Cuenta Twilio (gratuita con Sandbox)
-Cuenta Render para el deploy
+## Endpoint webhook
+`POST /bot`
 
+Configura esta URL en Twilio Sandbox:
+`https://TU-URL-RENDER.onrender.com/bot`
