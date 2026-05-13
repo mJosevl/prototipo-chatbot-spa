@@ -38,6 +38,15 @@ ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
+SUBMENU = (
+    "\n\n¿Hay algo más en lo que pueda ayudarte?\n"
+    "1. Horario de atención\n"
+    "2. Ubicación\n"
+    "3. Productos o servicios\n"
+    "4. Contacto\n"
+    "5. Hablar con un agente"
+)
+
 MENU = (
     "Hola! ¿Cómo puedo ayudarte hoy?\n"
     "1. Horario de atención\n"
@@ -50,7 +59,7 @@ MENU = (
 @app.route("/bot", methods=['POST'])
 def bot():
     try:
-        incoming_msg = request.values.get('Body', '').lower()
+        incoming_msg = request.values.get('Body', '').strip().lower()
         usuario = request.values.get('From', '').lower()
         resp = MessagingResponse()
         msg = resp.message()
@@ -63,39 +72,30 @@ def bot():
             respuesta_texto = MENU
             opcion = 'hola'
         elif incoming_msg == '1':
-            respuesta_texto = 'Nuestro horario de atención es de lunes a viernes de 9 a 18 horas.'
+            respuesta_texto = 'Nuestro horario de atención es de lunes a viernes de 9 a 18 horas.' + SUBMENU
             opcion = '1'
         elif incoming_msg == '2':
-            respuesta_texto = 'Estamos ubicados en Villa Rucahue 600.'
+            respuesta_texto = 'Estamos ubicados en Villa Rucahue 600.' + SUBMENU
             opcion = '2'
         elif incoming_msg == '3':
-            respuesta_texto = 'Ofrecemos una amplia gama de productos y servicios. Visita nuestro sitio web para más información.'
+            respuesta_texto = 'Ofrecemos una amplia gama de productos y servicios. Visita nuestro sitio web para más información.' + SUBMENU
             opcion = '3'
         elif incoming_msg == '4':
-            respuesta_texto = 'Puedes contactarnos al teléfono 555-1234 o al correo comercialaustralroad@gmail.com.'
+            respuesta_texto = 'Puedes contactarnos al teléfono 555-1234 o al correo comercialaustralroad@gmail.com.' + SUBMENU
             opcion = '4'
         elif incoming_msg == '5':
-            respuesta_texto = 'Por favor, espera un momento mientras te conectamos con un agente.'
+            respuesta_texto = 'Por favor, espera un momento mientras te conectamos con un agente.' + SUBMENU
             opcion = '5'
         elif 'feedback' in incoming_msg:
-            respuesta_texto = 'Por favor, proporciona tu feedback sobre el chatbot.'
+            respuesta_texto = 'Por favor, proporciona tu feedback sobre el chatbot.' + SUBMENU
             opcion = 'feedback'
         else:
-            respuesta_texto = 'Lo siento, no entiendo tu solicitud. Por favor elige una opción del menú.'
+            respuesta_texto = 'Lo siento, no entiendo tu solicitud. Por favor elige una opción del menú.' + SUBMENU
             opcion = 'otro'
 
         msg.body(respuesta_texto)
         session.add(Mensaje(opcion=opcion, respuesta=respuesta_texto))
         session.commit()
-
-        msg.body(
-            "\n¿Hay algo más en lo que pueda ayudarte?\n"
-            "1. Horario de atención\n"
-            "2. Ubicación\n"
-            "3. Productos o servicios\n"
-            "4. Contacto\n"
-            "5. Hablar con un agente"
-        )
 
         return str(resp)
 
